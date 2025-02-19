@@ -5,6 +5,9 @@ const cors = require("cors");
 console.log("server");
 dotenv.config();
 const app = express();
+// Import and use the router (all routes under "/api" are handled by userRoutes)
+const userRoute = require("./routes/userRoutes");
+const homeRoute = require("./routes/homeRoutes")
 
 // Middlewares
 app.use(express.json());
@@ -16,9 +19,9 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.error("MongoDB connection error:", err));
 
 
-// Import and use the router (all routes under "/api" are handled by userRoutes)
-const router = require("./routes/userRoutes");
-app.use("/api/user", router);  // Changed from "/" to "/api"
+
+app.use("/api/user", userRoute);  // Changed from "/" to "/api"
+app.use("/api/user", homeRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
